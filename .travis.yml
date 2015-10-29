@@ -3,7 +3,7 @@ deploy:
    edge: true
    provider: cloudfoundry
    username: krishneo@gmail.com
-   password: jaiguru7
+   password: superman
    api: https://api.run.pivotal.io
    organization: trial.cloud
    space: development
