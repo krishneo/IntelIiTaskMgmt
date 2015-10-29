@@ -1,5 +1,4 @@
 language: java
-script: ant package
 deploy:
    edge: true
    provider: cloudfoundry
