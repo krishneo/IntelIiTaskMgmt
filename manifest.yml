@@ -1,5 +1,5 @@
 applications:
-  name: IntelIiTaskMgmt
+- name: IntelIiTaskMgmt
   memory: 512M
   host: IntelIiTaskMgmt
   path: target/IntelIiTaskMgmt.war
