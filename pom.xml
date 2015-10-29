@@ -64,7 +64,7 @@
 
 	<build>
 		<finalName>IntelIiTaskMgmt</finalName>
-		<plugins>
+	<!-- 	<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
@@ -84,6 +84,6 @@
 				</executions>
 
 			</plugin>
-		</plugins>
+		</plugins>  -->
 	</build>
 </project>
