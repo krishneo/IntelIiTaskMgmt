@@ -64,26 +64,5 @@
 
 	<build>
 		<finalName>IntelIiTaskMgmt</finalName>
-	<!-- 	<plugins>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<configuration>
-							<target>
-								<copy file="${project.build.directory}/IntelIiTaskMgmt.war"
-									todir="C:/Apps/apache-tomcat-8.0.28/webapps" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-
-			</plugin>
-		</plugins>  -->
 	</build>
 </project>
