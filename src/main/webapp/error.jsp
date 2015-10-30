@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Welcome to Intelli Task Management System - ITMS</title>
+<title>HTML5 Login</title>
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div
 		style="height: 100px; background-color: black; width: 100%; position: relative; font-size: 25px;">
-		<img src="images/logo_eng.png" alt="TNEB"
+		<img src="images/logo_eng.gif" alt="TNEB"
 			style="height: 75px; padding-left: 40px; padding-top: 10px;" /> <span
-			style="font-weight: normal; text-align: left; text-indent: 1.8%; 
-			line-height: 55px; color: #FFF; text-shadow: 0px -1px 0px #000; 
-			top: 10px; veritical-align: top; position: absolute; 
-			top: 25px; min-width: 300px; width: 40%;"> Intelli Task Management System - ITMS</span>
+			style="font-weight: normal; text-align: left; text-indent: 1.8%; line-height: 55px; color: #FFF; text-shadow: 0px -1px 0px #000; top: 10px; veritical-align: top; position: absolute; top: 25px; min-width: 300px; width: 40%;">Tamilnadu
+			Electricity Board - TNEB</span>
 	</div>
+	<div
+		style="width: 100%; text-shadow: 0px -1px 0px #000; font-size: 25px; font-weight: normal; padding-top: 30px; text-align: center;">Invalid
+		Entry. Please login and try again. !!</div>
 	<section class="loginform cf">
 		<form name="login" id="login_form_me" action="LoginServlet.do"
-			method="post"  >
+			method="post">
 			<ul>
 				<li><label for="customer_id">Customer ID</label> <input
 					type="customer_id" name="customer_id" placeholder="customer id"
