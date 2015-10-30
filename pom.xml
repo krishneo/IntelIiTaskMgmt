@@ -18,6 +18,7 @@
 			<artifactId>commons-dbutils</artifactId>
 			<version>1.6</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
