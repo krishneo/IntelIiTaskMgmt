@@ -120,7 +120,7 @@ public class RaasServicesDAO {
 		return usageResult;
 	}
 
-	public List<RaasTasksDTO> getGroupUnassignedTasks(String groupName,  int page_no) {
+	public List<RaasTasksDTO> getGroupUnassignedTasks(String groupName, int page_no) {
 
 		int offset = (page_no - 1) * CommonUtils.PAGE_SIZE;
 
@@ -142,9 +142,9 @@ public class RaasServicesDAO {
 	}
 
 	public List<RaasTasksDTO> getSLAExpiredTasks(String groupName, int page_no) {
-		
+
 		int offset = (page_no - 1) * CommonUtils.PAGE_SIZE;
-		
+
 		String sql = "SELECT task_oid ,task_key ,user_name,status,group_name,created_timestamp, \n"
 				+ "work_start_timestamp,priority,internal_sla, external_sla,\n"
 				+ "(external_sla - elapsed_time) time_lapse_to_sla \n"
@@ -155,8 +155,9 @@ public class RaasServicesDAO {
 				+ "((UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(created_timestamp)) / 3600) 'elapsed_time' \n"
 				+ " FROM raas_tasks WHERE user_name IS NULL AND group_name = '" + groupName + "' \n"
 				+ " ORDER BY priority DESC , (NOW() - created_timestamp) DESC) derived_tbl\n"
-				+ "ORDER BY priority DESC , (external_sla - elapsed_time) DESC limit  " + offset + ", " + CommonUtils.PAGE_SIZE;
-		
+				+ "ORDER BY priority DESC , (external_sla - elapsed_time) DESC limit  " + offset + ", "
+				+ CommonUtils.PAGE_SIZE;
+
 		logger.info("sql for getting SLAExpiredTasks: " + sql);
 		try {
 			ResultSetHandler<List<RaasTasksDTO>> usageResultSet = new BeanListHandler<RaasTasksDTO>(RaasTasksDTO.class);
@@ -170,15 +171,33 @@ public class RaasServicesDAO {
 		return null;
 	}
 
+	public boolean createNewTask(String taskKey, String groupName , String priority, String weightage,
+			String sla) {
+		String sql = "insert into raas_tasks(task_key,group_name,created_timestamp,priority,"
+				+ "internal_sla,external_sla) values ('" + taskKey + "','" + groupName + "',now(),'" + priority + "','"
+				+ weightage + "','" + sla + "')";
+		logger.info("sql for creating NewTask: " + sql);
+		int resp = 0 ;
+		try {
+			resp = getQueryRunner().update(sql) ;  
+			logger.info(resp);
+			return true ;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public static void main(String[] args) throws Exception {
 		RaasServicesDAO dao = new RaasServicesDAO();
 		// System.out.println(dao.getUser("Prakash"));
 		// System.out.println(dao.getGroup("CPNI"));
 		System.out.println();
-		
-		RaasUsersDTO user = dao.getUser("Prakash") ;
 
-		 System.out.println("DAO : " + user);
+		boolean rr = dao.createNewTask("CPNI", "TEST_001", "1", "10", "20");
+
+		System.out.println("DAO : " + rr);
 
 	}
 }

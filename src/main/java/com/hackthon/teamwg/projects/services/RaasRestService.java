@@ -2,8 +2,10 @@ package com.hackthon.teamwg.projects.services;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -68,6 +70,22 @@ public class RaasRestService {
 		}
 		// return HTTP response 200 in case of success
 		return Response.status(200).entity(dto).build();
+	}
+
+	@POST
+	@Path("/task/add")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createTask(RaasTasksDTO tasksDTO) {
+		boolean res = false;
+		try {
+			if (tasksDTO != null)
+				res = raasServicesDAO.createNewTask(tasksDTO.getTask_key(), tasksDTO.getGroup_name(),
+						tasksDTO.getPriority(), tasksDTO.getInternal_sla(), tasksDTO.getExternal_sla());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return Response.status(200).entity(null).build();
 	}
 
 }

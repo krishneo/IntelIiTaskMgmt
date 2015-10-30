@@ -90,7 +90,7 @@
 	<header id="header">
 		<hgroup>
 			<h1 class="site_title">
-				<a href="home.jsp">Intelli Task Management System</a>
+				<a href="home.jsp">Intelli Task Mgmt System</a>
 			</h1>
 			<h2 class="section_title">User Dashboard</h2>
 			<div class="btn_view_site"></div>
@@ -108,7 +108,7 @@
 			} else {
 				out.print(customerDTO.getFirstName() + " (Customer ID: " + customerDTO.getLoginId() + ")") ;
 				
-				out.println("<script>var customerOid = " + customerDTO.getLoginId() + ";</script>") ;
+				out.println("<script>var customerOid = '" + customerDTO.getLoginId() + "';</script>") ;
 			}
 					
 			%>
