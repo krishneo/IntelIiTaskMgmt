@@ -23,8 +23,33 @@ public class TaskAssignmentDAO {
 
 	private QueryRunner queryRunner;
 
-	public void runTaskAssignmentAlgorithm(String group_name) throws Exception {
+	private String isEmergencyCondPrevail() throws Exception {
 		String emergency_ind = "N";
+		String sql = "SELECT DISTINCT"
++"       (CASE"
++"           WHEN (Assigned = 0 AND Unassigned > 100) THEN 'Y'"
++"           WHEN (Unassigned / Assigned) > 8 THEN 'Y'"
++"           ELSE 'N'"
++"        END)"
++"          emergency_ind"
++"  FROM (SELECT SUM(status = 'UNASSIGNED') AS Unassigned,"
++"               SUM(status = 'ASSIGNED') AS Assigned,"
++"               SUM(status = 'WORKING') AS Working"
++"          FROM raas_tasks"
++"         WHERE status != 'COMPLETED') consolidated_tbl";
+		
+		ResultSetHandler<List<String>> usageResultSet = new BeanListHandler<String>(String.class);
+		List<String> result=getQueryRunner().query(sql, usageResultSet);
+		
+		if(result.size() > 0 && "Y".equalsIgnoreCase(result.get(0)))
+			emergency_ind= "Y";
+		else
+			emergency_ind= "N";
+		logger.info("Is EMergency on?"+emergency_ind);
+		return emergency_ind;
+	}
+	public void runTaskAssignmentAlgorithm(String group_name) throws Exception {
+		String emergency_ind = this.isEmergencyCondPrevail();
 		if("ALL".equalsIgnoreCase(group_name))
 		{
 			List<RaasGroupsDTO> groups=getAllGroupsWithUnAssignedTasks();
@@ -323,7 +348,8 @@ public class TaskAssignmentDAO {
 	public static void main(String... args) throws Exception {
 		TaskAssignmentDAO tskDAO = new TaskAssignmentDAO();
 		// tskDAO.shuffleTasksAccordingToPriorities();
-		tskDAO.runTaskAssignmentAlgorithm("CPNI");
+		//tskDAO.runTaskAssignmentAlgorithm("CPNI");
+		System.out.println(tskDAO.isEmergencyCondPrevail());
 
 	}
 }
