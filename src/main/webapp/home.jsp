@@ -328,10 +328,12 @@
 			contentType : "application/json; charset=utf-8",
 			success : function(msg) {
 				drawUnassignedTasksChart(msg);
+				loadUserStatusUnderManagerChart(cur_cust_oid);
 			},
 			error : function(xhr, textStatus, error) {
 				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
 						+ error);
+				loadUserStatusUnderManagerChart(cur_cust_oid);
 			}
 		});
 
@@ -347,10 +349,12 @@
 			contentType : "application/json; charset=utf-8",
 			success : function(msg) {
 				drawGroupTaskSplitups(msg);
+				loadUserSatisfaction(in_user_id, group_name);
 			},
 			error : function(xhr, textStatus, error) {
 				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
 						+ error);
+				loadUserSatisfaction(in_user_id, group_name);
 			}
 		});
 
@@ -446,10 +450,12 @@
 				// setSuccessMessage("Data Saved: " + msg);
 				$("#pages_no").val(page_no);
 				fillSlaExpiredData(msg);
+				loadUnassignedTasksChart(cur_cust_oid) ;
 			},
 			error : function(xhr, textStatus, error) {
 				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
 						+ error);
+				loadUnassignedTasksChart(cur_cust_oid) ;
 			}
 		});
 	}
@@ -492,10 +498,7 @@
 				$('.managerHandledGroups').val(group_first);
 
 				getSlaExpired(group_first, 1);
-				loadUnassignedTasksChart(cur_cust_oid);
-				loadUserStatusUnderManagerChart(cur_cust_oid);
 				loadGroupTaskSplitups(cur_cust_oid, group_first);
-				loadUserSatisfaction(cur_cust_oid, group_first);
 
 			},
 			error : function(xhr, textStatus, error) {
@@ -542,7 +545,7 @@
 				var optionSelected = $(this).find("option:selected");
 				var valueSelected = optionSelected.val();
 				loadGroupTaskSplitups(customerOid, valueSelected);
-				loadUserSatisfaction(customerOid, valueSelected);
+				// loadUserSatisfaction(customerOid, valueSelected);
 			});
 		}
 	});
