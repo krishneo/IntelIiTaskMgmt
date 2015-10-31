@@ -109,7 +109,7 @@ public class RaasTasksDTO {
 		return "RaasTasksDTO [task_oid=" + task_oid + ", task_key=" + task_key + ", user_name=" + user_name
 				+ ", status=" + status + ", group_name=" + group_name + ", created_timestamp=" + created_timestamp
 				+ ", work_start_timestamtimestamp=" + work_start_timestamp + ", priority=" + priority
-				+ ", internal_sla=" + internal_sla + ", external_sla=" + external_sla + "]"+ ", time_lapse_to_sla=" + time_lapse_to_sla + "]";
+				+ ", internal_sla=" + internal_sla + ", external_sla=" + external_sla + "]";
 	}
 
 }

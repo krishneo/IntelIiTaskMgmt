@@ -13,40 +13,7 @@ public class RaasUsersDTO {
 	private String assigned_tasks;
 	private String working_tasks;
 	private String finished_tasks;
-	private String availablity;	
-	public String getAssigned_tasks() {
-		return assigned_tasks;
-	}
-
-	public void setAssigned_tasks(String assigned_tasks) {
-		this.assigned_tasks = assigned_tasks;
-	}
-
-	public String getWorking_tasks() {
-		return working_tasks;
-	}
-
-	public void setWorking_tasks(String working_tasks) {
-		this.working_tasks = working_tasks;
-	}
-
-	public String getFinished_tasks() {
-		return finished_tasks;
-	}
-
-	public void setFinished_tasks(String finished_tasks) {
-		this.finished_tasks = finished_tasks;
-	}
-
-	public String getAvailablity() {
-		return availablity;
-	}
-
-	public void setAvailablity(String availablity) {
-		this.availablity = availablity;
-	}
-
-
+	private String availablity;
 
 	public String getLoginId() {
 		return loginId;
