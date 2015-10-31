@@ -2,7 +2,6 @@ package com.hackthon.teamwg.projects.dao;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -12,6 +11,7 @@ import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.log4j.Logger;
 
+import com.hackthon.teamwg.projects.dto.RaasGenericCountDTO;
 import com.hackthon.teamwg.projects.dto.RaasGroupsDTO;
 import com.hackthon.teamwg.projects.dto.RaasTasksDTO;
 import com.hackthon.teamwg.projects.dto.RaasUsersDTO;
@@ -140,6 +140,84 @@ public class RaasServicesDAO {
 		}
 		return null;
 	}
+	
+	public List<RaasGenericCountDTO> getUnassignedTasksUnderManager(String managerName) {
+
+		String sql = "SELECT DISTINCT rt.group_name key1, COUNT(rt.task_key) value1 FROM raas_tasks rt, "
+				+ " raas_groups rg WHERE rt.status = 'UNASSIGNED' AND "
+				+ " rt.group_name = rg.name AND   rg.manager = '" + managerName + "' GROUP BY rt.group_name " ;
+		logger.info("sql for getting getUnassignedTasksUnderManager: " + sql);
+		try {
+			ResultSetHandler<List<RaasGenericCountDTO>> usageResultSet = new BeanListHandler<RaasGenericCountDTO>(RaasGenericCountDTO.class);
+			List<RaasGenericCountDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
+			logger.info(usageResult);
+			return usageResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<RaasGenericCountDTO> getUserStatusUnderManager (String managerName) {
+		String sql = "SELECT DISTINCT rgum.user_name key1, rt.status key2, COUNT(task_key) key3 "
+				+ " FROM raas_users ru, raas_groups rg, raas_group_user_map rgum, raas_tasks rt "
+				+ " WHERE ru.login_id = '" + managerName + "' AND ru.login_id = rg.manager AND "
+						+ " rg.name = rgum.group_name AND rgum.user_name = rt.user_name GROUP BY rgum.user_name, rt.status " ;
+		logger.info("sql for getting getUnassignedTasksUnderManager: " + sql);
+		try {
+			ResultSetHandler<List<RaasGenericCountDTO>> usageResultSet = new BeanListHandler<RaasGenericCountDTO>(RaasGenericCountDTO.class);
+			List<RaasGenericCountDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
+			logger.info(usageResult);
+			return usageResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<RaasGenericCountDTO> getTasksSplitUpByGroup (String managerName, String groupName) {
+		String sql = "SELECT DISTINCT  rt.status key1, COUNT(task_key) key2"
+				+ "    FROM raas_users ru, raas_groups rg, raas_group_user_map rgum, raas_tasks rt"
+				+ "	WHERE  ru.login_id = rg.manager"
+				+ "	AND  rg.name = rgum.group_name AND rgum.user_name = rt.user_name"
+				+ "	AND ru.login_id = '" + managerName + "'  AND rgum.group_name = '" + groupName + "'"
+				+ "	GROUP BY  rt.status" ;
+		logger.info("sql for getting getUnassignedTasksUnderManager: " + sql);
+		try {
+			ResultSetHandler<List<RaasGenericCountDTO>> usageResultSet = new BeanListHandler<RaasGenericCountDTO>(RaasGenericCountDTO.class);
+			List<RaasGenericCountDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
+			logger.info(usageResult);
+			return usageResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<RaasGenericCountDTO> getUserSatisfaction (String managerName, String groupName) {
+		String sql = "SELECT avg_lb key1, avg_ub key2, avg_mb key3, (SELECT ROUND(AVG(task_cnt),2 ) "
+				+ "  FROM  ( SELECT user_name, DAY(completed_ts) days, COUNT(task_key) task_cnt "
+				+ " FROM raas_tasks WHERE STATUS = 'COMPLETED' AND group_name = '" + groupName + "' "
+				+ " GROUP BY user_name, DAY(completed_ts)   ) t) value1  FROM ( "
+				+ " SELECT ROUND(AVG(lower_bound), 2) avg_lb, ROUND(AVG(user_bound), 2) avg_ub, "
+				+ " ROUND(AVG(max_bound), 2) avg_mb FROM raas_users WHERE login_id IN "
+				+ " (SELECT user_name FROM raas_group_user_map rgum, raas_groups rg "
+				+ " WHERE rg.manager = '" + managerName + "' AND rgum.group_name = rg.name AND rg.name = '" + groupName + "' ) ) bquery" ; 
+		logger.info("sql for getting getUnassignedTasksUnderManager: " + sql);
+		try {
+			ResultSetHandler<List<RaasGenericCountDTO>> usageResultSet = new BeanListHandler<RaasGenericCountDTO>(RaasGenericCountDTO.class);
+			List<RaasGenericCountDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
+			logger.info(usageResult);
+			return usageResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public List<RaasTasksDTO> getSLAExpiredTasks(String groupName, int page_no) {
 
@@ -195,9 +273,11 @@ public class RaasServicesDAO {
 		// System.out.println(dao.getGroup("CPNI"));
 		System.out.println();
 
-		boolean rr = dao.createNewTask("CPNI", "TEST_001", "1", "10", "20");
+	//	boolean rr = dao.createNewTask("CPNI", "TEST_001", "1", "10", "20");
 
-		System.out.println("DAO : " + rr);
+		// System.out.println("DAO : " + rr);
+		
+		System.out.println( dao.getUnassignedTasksUnderManager("Prakash") );
 
 	}
 }

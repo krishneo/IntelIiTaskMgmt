@@ -16,7 +16,7 @@
 <script src="js/hideshow.js" type="text/javascript"></script>
 <script src="js/jquery.tablesorter.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.equalHeight.js"></script>
-<script type="text/javascript" src="js/jquery.sparkline.js"></script>
+<!-- <script type="text/javascript" src="js/jquery.sparkline.js"></script>  -->
 <script type="text/javascript" src="js/common.js"></script>
 <style type="text/css">
 .prak_button {
@@ -35,6 +35,10 @@
 }
 </style>
 <script type="text/javascript">
+
+var customerOid = null ;
+var userRole = null ;
+
 	$(document).ready(
 			function() {
 
@@ -56,23 +60,7 @@
 				});
 
 				$(".tablesorter").tablesorter();
-
-				$("#sparkline_213").sparkline(
-						[ 5, 6, 7, 9, 9, 5, 3, 2, 8, 4, 6, 7, 5, 6, 7, 9, 9, 5,
-								3, 2, 8, 4, 6, 7, 4, 6, 8, 2, 4, 2, 7 ], {
-							type : 'line',
-							width : '83%',
-							height : '200'
-						});
-
-				$("#sparkline_214").sparkline(
-						[ 5, 6, 7, 9, 9, 5, 3, 2, 8, 4, 6, 7, 5, 6, 7, 9, 9, 5,
-								3, 2, 8, 4, 6, 7, 4, 6, 8, 2, 4, 2, 7 ], {
-							type : 'bar',
-							height : '200',
-							barWidth : 8,
-							barSpacing : 2
-						});
+ 
 
 			});
 </script>
@@ -108,7 +96,10 @@
 			} else {
 				out.print(customerDTO.getFirstName() + " (Customer ID: " + customerDTO.getLoginId() + ")") ;
 				
-				out.println("<script>var customerOid = '" + customerDTO.getLoginId() + "';</script>") ;
+				out.println("<script>") ;
+				out.println("customerOid = '" + customerDTO.getLoginId() + "';") ;
+				out.println("userRole = '" + customerDTO.getUserRole() + "';") ;
+				out.println("</script>") ;
 			}
 					
 			%>

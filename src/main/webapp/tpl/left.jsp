@@ -9,7 +9,8 @@
 		</ul>  -->
 	<h3>Users</h3>
 	<ul class="toggle">
-		<li class="icn_add_user"><a href="addUser.jsp">Add New User</a></li>
+		<li class="icn_categories"><a href="home.jsp">Dashboard</a></li>
+		<li class="icn_add_user"><a href="addTask.jsp">Add New Task</a></li>
 		<li class="icn_view_users"><a href="viewUser.jsp">View Users</a></li>
 	</ul>
 	<!--	<h3>Media</h3>
@@ -23,7 +24,7 @@
 	<ul class="toggle">
 		<li class="icn_settings"><a href="options.jsp">Options</a></li>
 		<li class="icn_security"><a href="#">Security</a></li>
-		<li class="icn_jump_back"><a href="#">Logout</a></li>
+		<li class="icn_jump_back"><a href="index.jsp">Logout</a></li>
 	</ul>
 	<hr />
 	<form class="quick_search" action="viewUser.jsp" method="get">
@@ -35,10 +36,10 @@
 	<footer>
 		<hr />
 		<p>
-			<strong>Copyright &copy; 2015 Verizon Billing Solutions</strong>
+			<strong>Copyright &copy; 2015 Intelli Task Management System</strong>
 		</p>
 		<p>
-			Registerd to <a href="#">TNEB</a>
+			Registerd to <a href="#">ITMS</a>
 		</p>
 	</footer>
 </aside>

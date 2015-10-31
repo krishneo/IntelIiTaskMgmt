@@ -30,13 +30,7 @@
 	</section>
 
 	<script>
-		$(document).ready(function() {
-			/* $("form").submit(function(e) {
-				alert("asdds");
-				e.preventDefault();
-				
-			}); */
-		});
+		 
 	</script>
 </body>
 </html>
