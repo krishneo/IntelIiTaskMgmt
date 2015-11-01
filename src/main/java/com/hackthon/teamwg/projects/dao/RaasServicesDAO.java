@@ -96,6 +96,29 @@ public class RaasServicesDAO {
 		return null;
 	}
 
+	public RaasTasksDTO getTask(String taskKey) {
+		String sql = "SELECT * FROM raas_tasks WHERE task_key = '" + taskKey + "'";
+		logger.info("sql for getTask: " + sql);
+		try {
+			List<RaasTasksDTO> raasGroupsDTO = getTaskList(sql, getQueryRunner());
+			logger.info("raasGroupsDTO: " + raasGroupsDTO);
+			if (raasGroupsDTO != null && raasGroupsDTO.size() == 1)
+				return raasGroupsDTO.get(0);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private List getTaskList(String sql, QueryRunner run) throws SQLException {
+		ResultSetHandler<List<RaasTasksDTO>> usageResultSet = new BeanListHandler<RaasTasksDTO>(RaasTasksDTO.class);
+		List<RaasTasksDTO> usageResult = run.query(sql, usageResultSet);
+		logger.info(usageResult);
+
+		return usageResult;
+	}
+	
 	private List getGroupList(String sql, QueryRunner run) throws SQLException {
 		ResultSetHandler<List<RaasGroupsDTO>> usageResultSet = new BeanListHandler<RaasGroupsDTO>(RaasGroupsDTO.class);
 		List<RaasGroupsDTO> usageResult = run.query(sql, usageResultSet);
@@ -150,6 +173,22 @@ public class RaasServicesDAO {
 		try {
 			ResultSetHandler<List<RaasGenericCountDTO>> usageResultSet = new BeanListHandler<RaasGenericCountDTO>(RaasGenericCountDTO.class);
 			List<RaasGenericCountDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
+			logger.info(usageResult);
+			return usageResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<RaasTasksDTO> getMyTasks(String userName) {
+
+		String sql = "SELECT * FROM raas_tasks WHERE  STATUS in ('ASSIGNED', 'WORKING') AND user_name = '" + userName + "'  ORDER BY priority desc , STATUS desc ,  created_timestamp desc" ;
+		logger.info("sql for getting getUnassignedTasksUnderManager: " + sql);
+		try {
+			ResultSetHandler<List<RaasTasksDTO>> usageResultSet = new BeanListHandler<RaasTasksDTO>(RaasTasksDTO.class);
+			List<RaasTasksDTO> usageResult = getQueryRunner().query(sql, usageResultSet);
 			logger.info(usageResult);
 			return usageResult;
 		} catch (Exception e) {
@@ -251,6 +290,9 @@ public class RaasServicesDAO {
 
 	public boolean createNewTask(String taskKey, String groupName , String priority, String weightage,
 			String sla) {
+		
+		logger.info("TaskKey: " + taskKey + " - groupName: " + groupName + " - priority: " + priority + " - weightage: " + weightage + " - sla: " + sla);
+		
 		String sql = "insert into raas_tasks(task_key,group_name,created_timestamp,priority,"
 				+ "internal_sla,external_sla) values ('" + taskKey + "','" + groupName + "',now(),'" + priority + "','"
 				+ weightage + "','" + sla + "')";

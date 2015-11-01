@@ -4,12 +4,86 @@
 <script src="chart/fusioncharts.js" type="text/javascript"></script>
 <script src="chart/fusioncharts.charts.js" type="text/javascript"></script>
 <script src="chart/fusioncharts.widgets.js" type="text/javascript"></script>
+<style type="text/css" >
+.userViewGrid, .managerViewGrid {
+	display: none;
+}
+
+</style>
 
 <section id="main" class="column">
 
-	<h4 class="alert_info">Welcome to Intelli Task Management System</h4>
+	<h4 class="alert_info">
+		Welcome to Intelli Task Management System <span
+			style="float: right; font-weight: bold;"><input
+			id="reshuffleTasks" value="Resuffle Tasks" type="button"
+			class="assign_btn" /> &nbsp;&nbsp; </span>
+	</h4>
+	
+	<article class="module width_full userViewGrid" >
+		<header>
+			<h3 class="tabs_involved">My Tasks</h3> 
+		</header>
 
-	<article class="module width_full">
+		<div class="tab_container">
+			<div id="tab1" class="tab_content">
+
+				<table class="tablesorter" cellspacing="0">
+					<thead id="user_mytasks_thead">
+						<tr>
+							<th>Task Key</th>
+							<th>Created Date</th>
+							<th>Priority</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="user_mytasks_tbody">
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end of #tab1 -->
+
+		</div> 
+
+	</article>
+
+	<article class="module width_full managerViewGrid">
+		<header>
+			<h3 class="tabs_involved">My Users &amp; Groups Snapshot</h3>
+		</header>
+
+		<div class="module_content">
+
+			<fieldset style="width: 48%; float: left; margin-right: 3%;">
+				<!-- to make two field float next to one another, adjust values accordingly -->
+				<label>Unassigned Task in Groups</label>
+				<div>
+					<br /> <br />
+				</div>
+				<div id="unassiged_task_chart"
+					style="padding: 10px; text-align: center;">Loading data..</div>
+
+			</fieldset>
+			<fieldset style="width: 48%; float: left;">
+				<!-- to make two field float next to one another, adjust values accordingly -->
+				<label>Users Task Load</label>
+				<div>
+					<br /> <br />
+				</div>
+				<div id="managed_user_status_chart"
+					style="padding: 10px; text-align: center;">Loading data..</div>
+			</fieldset>
+			<div class="clear"></div>
+		</div>
+
+	</article>
+
+	<article class="module width_full managerViewGrid">
 		<header>
 			<h3 class="tabs_involved">Time Lapsed Tasks</h3>
 			<span style="float: right; padding: 10px; font-weight: bold;">Group
@@ -41,8 +115,6 @@
 			</div>
 			<!-- end of #tab1 -->
 
-
-
 		</div>
 		<!-- end of .tab_container -->
 
@@ -60,41 +132,8 @@
 		</footer>
 
 	</article>
-	<!-- end of content manager article -->
 
-
-	<article class="module width_full">
-		<header>
-			<h3 class="tabs_involved">My Users &amp; Groups Snapshot</h3>
-		</header>
-
-		<div class="module_content">
-
-			<fieldset style="width: 48%; float: left; margin-right: 3%;">
-				<!-- to make two field float next to one another, adjust values accordingly -->
-				<label>Unassigned Task in Groups</label>
-				<div>
-					<br /> <br />
-				</div>
-				<div id="unassiged_task_chart"
-					style="padding: 10px; text-align: center;">Loading data..</div>
-
-			</fieldset>
-			<fieldset style="width: 48%; float: left;">
-				<!-- to make two field float next to one another, adjust values accordingly -->
-				<label>Users Task Load</label>
-				<div>
-					<br /> <br />
-				</div>
-				<div id="managed_user_status_chart"
-					style="padding: 10px; text-align: center;">Loading data..</div>
-			</fieldset>
-			<div class="clear"></div>
-		</div>
-
-	</article>
-
-	<article class="module width_full">
+	<article class="module width_full managerViewGrid" >
 		<header>
 			<h3 class="tabs_involved">Misc Details</h3>
 			<span style="float: right; padding: 10px; font-weight: bold;">Group
@@ -129,43 +168,6 @@
 
 	</article>
 
-<!--  
-	<article class="module width_full">
-		<header>
-			<h3>Current Month Consumption</h3>
-		</header>
-		<div class="module_content">
-			<article class="stats_graph">
-
-				  <span id="sparkline_214"> </span>  
-				<span style=""> &nbsp; &nbsp; &nbsp; &nbsp;</span> <span
-					id="sparkline_unassigned"> </span> <br /> <span style="left: 10%;">Rating
-					Per Day</span>
-
-
-			</article>
-
-			<article class="stats_overview">
-				<div class="overview_today">
-					<p class="overview_day">Till Date</p>
-					<p class="overview_count" id="currentConsumption">1,876</p>
-					<p class="overview_type">Readings</p>
-					<p class="overview_count">TYD</p>
-					<p class="overview_type">Charges</p>
-				</div>
-				<div class="overview_previous">
-					<p class="overview_day">Last Month</p>
-					<p class="overview_count" id="lastMonthConsumption">2,876</p>
-					<p class="overview_type">Readings</p>
-					<p class="overview_count">TYD</p>
-					<p class="overview_type">Charges</p>
-				</div>
-			</article>
-			<div class="clear"></div>
-		</div>
-	</article>   -->
-	<!-- end of stats article -->
-
 	<div class="spacer"></div>
 </section>
 
@@ -176,6 +178,8 @@
 	var cur_page_no = 1;
 	var cur_cust_oid = customerOid;
 	var managing_groups = [];
+
+	var basicChartLoaded = false;
 
 	function drawUnassignedTasksChart(chartData) {
 
@@ -396,6 +400,7 @@
 					var dataset = msg.dataset;
 					var categories = msg.categories;
 					drawManagedUserStatusChart(dataset, categories);
+					basicChartLoaded = true;
 				}
 			},
 			error : function(xhr, textStatus, error) {
@@ -416,6 +421,9 @@
 		for ( var itr in slaData) {
 
 			var row_id = "ver_row_" + rec_count;
+			var taskKeyLink = "<a href='viewTask.jsp?task_key="
+					+ slaData[itr].task_key + "' target='_blank' >"
+					+ slaData[itr].task_key + "</a>";
 
 			var d = new Date(slaData[itr].created_timestamp);
 
@@ -425,7 +433,7 @@
 					+ [ d.getHours(), d.getMinutes(), d.getSeconds() ]
 							.join(':');
 
-			finalHtml += "<tr><td>" + slaData[itr].task_key + "</td><td>"
+			finalHtml += "<tr><td>" + taskKeyLink + "</td><td>"
 					+ dformat + "</td><td>" + slaData[itr].priority
 					+ "</td><td>" + slaData[itr].time_lapse_to_sla
 					+ "</td></tr>";
@@ -437,6 +445,42 @@
 		//	getAllUserRecords(1);
 
 	}
+	
+	function fillMyTasksGrid(slaData) {
+
+		var rec_count = 0;
+
+		var finalHead = "<tr><th>Task Key</th><th>Created Date</th><th>Priority</th><th>Status</th></tr>";
+		$("#user_mytasks_thead").html(finalHead);
+		var finalHtml = "";
+		for ( var itr in slaData) {
+
+			var row_id = "ver_row_" + rec_count;
+			var taskKeyLink = "<a href='viewTask.jsp?task_key="
+					+ slaData[itr].task_key + "' target='_blank' >"
+					+ slaData[itr].task_key + "</a>";
+
+			var d = new Date(slaData[itr].created_timestamp);
+
+			var dformat = [ d.getMonth() + 1, d.getDate(), d.getFullYear() ]
+					.join('/')
+					+ ' '
+					+ [ d.getHours(), d.getMinutes(), d.getSeconds() ]
+							.join(':');
+
+			finalHtml += "<tr><td>" + taskKeyLink + "</td><td>"
+					+ dformat + "</td><td>" + slaData[itr].priority
+					+ "</td><td>" + slaData[itr].status
+					+ "</td></tr>";
+			rec_count++;
+		}
+		$("#user_mytasks_tbody").html(finalHtml);
+
+		//if (cur_page_no > 1 && rec_count == 0)
+		//	getAllUserRecords(1);
+
+	}
+
 
 	function getSlaExpired(in_group_id, page_no) {
 		cur_page_no = page_no;
@@ -450,12 +494,31 @@
 				// setSuccessMessage("Data Saved: " + msg);
 				$("#pages_no").val(page_no);
 				fillSlaExpiredData(msg);
-				loadUnassignedTasksChart(cur_cust_oid) ;
+				if (!basicChartLoaded)
+					loadUnassignedTasksChart(cur_cust_oid);
 			},
 			error : function(xhr, textStatus, error) {
 				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
 						+ error);
-				loadUnassignedTasksChart(cur_cust_oid) ;
+				if (!basicChartLoaded)
+					loadUnassignedTasksChart(cur_cust_oid);
+			}
+		});
+	}
+
+	function reshuffleTasks() {
+		$.ajax({
+			type : "GET",
+			url : "api/rest/task/assign/invoke/ALL",
+			datatype : "json",
+			contentType : "application/json; charset=utf-8",
+			success : function(msg) {
+				alert("Request Sent");
+				loadUnassignedTasksChart(cur_cust_oid);
+			},
+			error : function(xhr, textStatus, error) {
+				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
+						+ error);
 			}
 		});
 	}
@@ -507,33 +570,42 @@
 			}
 		});
 	}
+	
+	function getRepUserObj (in_cust_oid) {		
+
+		page_no = 1;
+		
+		$.ajax({
+			type : "GET",
+			url : "api/task/mytask/" + in_cust_oid,
+			datatype : "json",
+			contentType : "application/json; charset=utf-8",
+			success : function(msg) {
+				$("#pages_no").val(page_no);
+				fillMyTasksGrid(msg);
+			},
+			error : function(xhr, textStatus, error) {
+				setErrorMessage(xhr.statusText + " - " + textStatus + " - "
+						+ error);									
+			}
+		});
+	}
 
 	$(document).ready(function() {
 
 		if (customerOid == null || customerOid == 'undefined') {
 			window.href = "index.jsp";
 		} else {
-			getCustomerObj(customerOid);
-			$("#prev_pages_no").click(function() {
-				if (cust_oids) {
-					if (cur_page_no != 1) {
-						getUserRecords(cust_oids, cur_page_no - 1);
-					}
-				} else {
-					if (cur_page_no != 1) {
-						getAllUserRecords(cur_page_no - 1);
-					}
-				}
-
-			});
-
-			$("#next_pages_no").click(function() {
-				if (cust_oids) {
-					getUserRecords(cust_oids, cur_page_no + 1);
-				} else {
-					getAllUserRecords(cur_page_no + 1);
-				}
-			});
+			
+			if (userRole == 'MANAGER') {
+				$(".userViewGrid").hide() ;
+				$(".managerViewGrid").show() ;				
+				getCustomerObj(customerOid);
+			} else if (userRole == 'USER') {
+				$(".userViewGrid").show() ;
+				$(".managerViewGrid").hide() ;
+				getRepUserObj(customerOid) ;
+			}		
 
 			$("#timeLapseSelectorId").on('change', function(e) {
 				var optionSelected = $(this).find("option:selected");
@@ -546,6 +618,10 @@
 				var valueSelected = optionSelected.val();
 				loadGroupTaskSplitups(customerOid, valueSelected);
 				// loadUserSatisfaction(customerOid, valueSelected);
+			});
+
+			$("#reshuffleTasks").click(function() {
+				reshuffleTasks();
 			});
 		}
 	});

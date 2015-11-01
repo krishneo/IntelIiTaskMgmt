@@ -94,7 +94,6 @@ public class RaasGenericCountDTO implements Comparable<RaasGenericCountDTO> {
 				+ value2 + ", value3=" + value3 + "]";
 	}
 
-	@Override
 	public int compareTo(RaasGenericCountDTO o) {
 		if (this.getKey1() != null && o.getKey1() != null && !this.getKey1().equals(o.getKey1()))	
 			return this.getKey1() .compareTo(o.getKey1()) ;

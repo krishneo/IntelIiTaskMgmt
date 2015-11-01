@@ -15,6 +15,19 @@ public class RaasTasksDTO {
 	private String internal_sla;
 	private String external_sla;
 	private String time_lapse_to_sla;
+	private String completed_ts ;
+	
+	public RaasTasksDTO () {
+		super() ;
+	}
+
+	public String getCompleted_ts() {
+		return completed_ts;
+	}
+
+	public void setCompleted_ts(String completed_ts) {
+		this.completed_ts = completed_ts;
+	}
 
 	public String getTask_oid() {
 		return task_oid;
@@ -106,10 +119,14 @@ public class RaasTasksDTO {
 
 	@Override
 	public String toString() {
-		return "RaasTasksDTO [task_oid=" + task_oid + ", task_key=" + task_key + ", user_name=" + user_name
-				+ ", status=" + status + ", group_name=" + group_name + ", created_timestamp=" + created_timestamp
-				+ ", work_start_timestamtimestamp=" + work_start_timestamp + ", priority=" + priority
-				+ ", internal_sla=" + internal_sla + ", external_sla=" + external_sla + "]"+ ", time_lapse_to_sla=" + time_lapse_to_sla + "]";
+		return "RaasTasksDTO [task_oid=" + task_oid + ", task_key=" + task_key
+				+ ", user_name=" + user_name + ", status=" + status
+				+ ", group_name=" + group_name + ", created_timestamp="
+				+ created_timestamp + ", work_start_timestamp="
+				+ work_start_timestamp + ", priority=" + priority
+				+ ", internal_sla=" + internal_sla + ", external_sla="
+				+ external_sla + ", time_lapse_to_sla=" + time_lapse_to_sla
+				+ ", completed_ts=" + completed_ts + "]";
 	}
 
 }

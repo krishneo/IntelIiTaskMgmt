@@ -299,8 +299,13 @@ public class TaskAssignmentDAO {
 		String sql = "UPDATE raas_tasks SET ";
 		if (tasks.getPriority() != null)
 			sql += " priority=" + tasks.getPriority() + " ,";
-		if (tasks.getStatus() != null)
+		if (tasks.getStatus() != null ) {
 			sql += " status='" + tasks.getStatus() + "' ,";
+			if ("COMPLETED".equals(tasks.getStatus()))
+				sql += " Work_start_timestamp=NOW() "  + " ,";
+			else if ("ACCEPTED".equals(tasks.getStatus()))
+				sql += " completed_ts=NOW() "  + " ,";
+		}
 		if (tasks.getGroup_name() != null)
 			sql += " group_name='" + tasks.getGroup_name() + "' ,";
 		if (tasks.getUser_name() != null)

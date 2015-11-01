@@ -81,13 +81,11 @@
 
 											});
 
-							$("form").submit(function(e) {
-								alert("asdds");
+							$("#add_user_form").submit(function(e) {
 								e.preventDefault();
-
 							});
 
-							$("#bread_crumb_text").html("Add User");
+							$("#currentPageCrumbId").html("Add Task");
 							//	$('#message_holder').attr("class", "alert_info").html("Sample ") ;
 
 						});

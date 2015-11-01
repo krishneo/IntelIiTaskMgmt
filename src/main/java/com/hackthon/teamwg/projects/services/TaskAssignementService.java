@@ -29,15 +29,16 @@ public class TaskAssignementService {
 	@Path("/task/assign/invoke/{group_name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response invokeTaskAssignment(@PathParam("group_name") String group_name) {
-		List<RaasTasksDTO> dto = null;
+		Boolean resp = false ;
 		try {
 			taskAssignmentDAO.runTaskAssignmentAlgorithm(group_name);
+			resp = true ;
 		} catch (Exception e) {
 			logger.info("Error Parsing: - " + e.getMessage());
 		}
 
 		// return HTTP response 200 in case of success
-		return Response.status(200).entity(dto).build();
+		return Response.status(200).entity(resp).build();
 	}
 
 }

@@ -43,7 +43,7 @@ var userRole = null ;
 			function() {
 
 				//When page loads...
-				$(".tab_content").hide(); //Hide all content
+			/*	$(".tab_content").hide(); //Hide all content
 				$("ul.tabs li:first").addClass("active").show(); //Activate first tab
 				$(".tab_content:first").show(); //Show first tab content
 
@@ -60,7 +60,7 @@ var userRole = null ;
 				});
 
 				$(".tablesorter").tablesorter();
- 
+ */
 
 			});
 </script>
@@ -110,7 +110,7 @@ var userRole = null ;
 			<article class="breadcrumbs">
 				<a href="home.jsp">Website Admin</a>
 				<div class="breadcrumb_divider"></div>
-				<a class="current">Dashboard</a>
+				<a class="current" id="currentPageCrumbId">Dashboard</a>
 			</article>
 		</div>
 	</section>

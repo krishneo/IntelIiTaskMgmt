@@ -17,6 +17,21 @@ font-size: 12px;
 clear: both;
 }
 
+.assign_btn {
+	background: rgba(0, 0, 0, 0)
+		-moz-linear-gradient(center top, #c42a50, #d6659b) repeat scroll 0 0;
+	border-radius: 8px;
+	border-top: 1px solid #96d1f8;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 1);
+	color: #ffffff;
+	font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+	vertical-align: middle;
+}
+
 .spacer {
 height: 20px;
 }
