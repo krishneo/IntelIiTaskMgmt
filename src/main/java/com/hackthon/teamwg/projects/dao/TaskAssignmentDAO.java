@@ -2,7 +2,6 @@ package com.hackthon.teamwg.projects.dao;
 
 import java.util.List;
 
-
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -23,6 +22,7 @@ public class TaskAssignmentDAO {
 	private MysqlDataSource mysqlDS;
 
 	private QueryRunner queryRunner;
+	
 
 	private String isEmergencyCondPrevail() throws Exception {
 		String emergency_ind = "N";
