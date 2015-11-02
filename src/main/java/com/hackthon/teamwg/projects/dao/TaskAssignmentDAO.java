@@ -282,6 +282,8 @@ public class TaskAssignmentDAO {
 				set_priority = priority + 2;
 			else if (ratio < 1 && ratio > 0.8)
 				set_priority = priority + 1;
+			else
+				set_priority = priority;
 
 			if (set_priority > 10)
 				set_priority = 10;
