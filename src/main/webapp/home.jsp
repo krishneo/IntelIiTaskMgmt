@@ -599,11 +599,13 @@
 			
 			if (userRole == 'MANAGER') {
 				$(".userViewGrid").hide() ;
-				$(".managerViewGrid").show() ;				
+				$(".managerViewGrid").show() ;
+				$("#reshuffleTasks").show() ;
 				getCustomerObj(customerOid);
 			} else if (userRole == 'USER') {
 				$(".userViewGrid").show() ;
 				$(".managerViewGrid").hide() ;
+				$("#reshuffleTasks").hide() ;
 				getRepUserObj(customerOid) ;
 			}		
 
