@@ -22,7 +22,6 @@ public class TaskAssignmentDAO {
 	private MysqlDataSource mysqlDS;
 
 	private QueryRunner queryRunner;
-	
 
 	private String isEmergencyCondPrevail() throws Exception {
 		String emergency_ind = "N";
@@ -49,6 +48,17 @@ public class TaskAssignmentDAO {
 		logger.info("Is EMergency on?"+emergency_ind);
 		return emergency_ind;
 	}
+	
+	public void setDemoData(String group_name) throws Exception {
+		getQueryRunner().update("delete from raas_tasks where status='UNASSIGNED'");
+		 getQueryRunner().update("update raas_tasks set status='COMPLETED',work_start_timestamp=(now()-2),completed_ts=(now()) where status='ASSIGNED' or status='WORKING'");
+	}
+	
+	public void runSQL(String run_sql) throws Exception {
+		logger.info("SQL to be run:"+run_sql);
+		getQueryRunner().update(run_sql);		 
+	}
+	
 	public void runTaskAssignmentAlgorithm(String group_name) throws Exception {
 		String emergency_ind = this.isEmergencyCondPrevail();
 		if("ALL".equalsIgnoreCase(group_name))
@@ -356,7 +366,7 @@ public class TaskAssignmentDAO {
 	public static void main(String... args) throws Exception {
 		TaskAssignmentDAO tskDAO = new TaskAssignmentDAO();
 		// tskDAO.shuffleTasksAccordingToPriorities();
-		tskDAO.runTaskAssignmentAlgorithm("CPNI");
+		tskDAO.setDemoData("CPNI");
 		//System.out.println(tskDAO.isEmergencyCondPrevail());
 
 	}

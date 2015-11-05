@@ -40,5 +40,37 @@ public class TaskAssignementService {
 		// return HTTP response 200 in case of success
 		return Response.status(200).entity(resp).build();
 	}
+	
+	@GET
+	@Path("/task/demo/setup/{group_name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response setupDemoData(@PathParam("group_name") String group_name) {
+		Boolean resp = false ;
+		try {
+			taskAssignmentDAO.setDemoData(group_name);
+			resp = true ;
+		} catch (Exception e) {
+			logger.info("Error Parsing: - " + e.getMessage());
+		}
+
+		// return HTTP response 200 in case of success
+		return Response.status(200).entity(resp).build();
+	}
+	
+	@GET
+	@Path("/task/demo/sql/{run_sql}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response runSQL(@PathParam("run_sql") String run_sql) {
+		Boolean resp = false ;
+		try {
+			taskAssignmentDAO.runSQL(run_sql);
+			resp = true ;
+		} catch (Exception e) {
+			logger.info("Error Parsing: - " + e.getMessage());
+		}
+
+		// return HTTP response 200 in case of success
+		return Response.status(200).entity(resp).build();
+	}
 
 }
