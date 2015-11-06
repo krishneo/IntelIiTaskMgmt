@@ -176,7 +176,7 @@ public class RaasRestService {
 
 		Map<String, Object> respMap = new HashMap<String, Object>();
 		List<RaasGenericCountDTO> dto = raasServicesDAO
-				.getUserStatusUnderManager("Prakash");
+				.getUserStatusUnderManager(managerName);
 		if (dto != null && dto.size() > 0)
 			respMap = chartService.getStackedColumnChartData(dto);
 		// return HTTP response 200 in case of success
